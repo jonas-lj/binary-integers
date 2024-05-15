@@ -1,6 +1,5 @@
 use std::cmp::Ordering;
 use std::fmt::Debug;
-use std::mem;
 
 use natural_numbers::NaturalNumber;
 use num_bigint::{BigInt, BigUint, Sign, ToBigInt};
@@ -22,6 +21,7 @@ pub enum Integer {
 
 impl Integer {
     /// Ensure that the odd part is odd and adjust the `twos` parameter accordingly.
+    #[inline]
     fn reduce(&mut self) {
         match self {
             Zero => {}
@@ -29,6 +29,7 @@ impl Integer {
         }
     }
 
+    #[inline]
     pub fn bits(&self) -> u64 {
         match self {
             Zero => 0,
@@ -39,29 +40,33 @@ impl Integer {
 
 impl IntegerTraits for Integer {
     /// Return the number of trailing zeros in the binary representation of this number.
+    #[inline]
     fn trailing_zeros(&self) -> u16 {
         match self {
             Zero => 0,
-            NonZero(x, _) => x.twos,
+            NonZero(x, _) => x.trailing_zeros(),
         }
     }
 
     /// Divide this number with the largest power of 2 that divides it and return the exponent 2.
+    #[inline]
     fn oddify(&mut self) -> u16 {
         match self {
             Zero => 0,
-            NonZero(ref mut x, _) => mem::replace(&mut x.twos, 0),
+            NonZero(ref mut x, _) => x.oddify(),
         }
     }
 
+    #[inline]
     fn is_negative(&self) -> bool {
         matches!(self, NonZero(_, true))
     }
 
+    #[inline]
     fn is_odd(&self) -> bool {
         match self {
             Zero => false,
-            NonZero(x, _) => x.twos == 0,
+            NonZero(x, _) => x.is_odd(),
         }
     }
 

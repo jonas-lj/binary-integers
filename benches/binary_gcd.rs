@@ -1,7 +1,6 @@
 use binary_gcd::binary_gcd::extended_euclidean_algorithm;
 use criterion::{criterion_group, criterion_main, Criterion};
 use num_bigint::BigInt;
-use num_integer::Integer;
 use rand::{thread_rng, RngCore};
 
 fn binary_gcd(c: &mut Criterion) {
@@ -18,11 +17,11 @@ fn binary_gcd(c: &mut Criterion) {
     let a_prime = binary_gcd::integers::Integer::from(&a);
     let b_prime = binary_gcd::integers::Integer::from(&b);
 
-    c.bench_function("binary", |b| {
+    c.bench_function("binary integers", |b| {
         b.iter(|| extended_euclidean_algorithm::<binary_gcd::integers::Integer>(&a_prime, &b_prime))
     });
 
-    c.bench_function("num-bigint", |bench| {
+    c.bench_function("num-bigint binary", |bench| {
         bench.iter(|| extended_euclidean_algorithm::<BigInt>(&a, &b))
     });
 }

@@ -23,7 +23,6 @@ impl Ord for NaturalNumber {
                 Greater => (&self.odd_part)
                     .shl(self.twos - other.twos)
                     .cmp(&other.odd_part),
-                //.cmp(&(&other.odd_part).shl(self.twos - other.twos)),
             },
         }
     }

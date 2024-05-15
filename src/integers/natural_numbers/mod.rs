@@ -3,6 +3,7 @@ use num_bigint::BigUint;
 use num_traits::{One, Zero};
 use std::cmp::Ordering;
 use std::cmp::Ordering::{Equal, Greater, Less};
+use std::mem;
 use std::ops::{Shl, Shr};
 
 mod add;
@@ -13,8 +14,8 @@ mod sub;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct NaturalNumber {
-    pub twos: TwosType,
-    pub odd_part: BigUint,
+    twos: TwosType,
+    odd_part: BigUint,
 }
 
 impl NaturalNumber {
@@ -37,6 +38,10 @@ impl NaturalNumber {
         }
     }
 
+    pub(crate) fn is_odd(&self) -> bool {
+        self.twos == 0
+    }
+
     pub(super) fn bits(&self) -> u64 {
         self.twos as u64 + self.odd_part.bits()
     }
@@ -55,6 +60,15 @@ impl NaturalNumber {
                     .cmp(&(&other.odd_part).shl(self.twos + shifts - other.twos)),
             },
         }
+    }
+
+    pub(crate) fn trailing_zeros(&self) -> u16 {
+        self.twos
+    }
+
+    /// Divide this number with the largest power of 2 that divides it and return the exponent 2.
+    pub(crate) fn oddify(&mut self) -> u16 {
+        mem::replace(&mut self.twos, 0)
     }
 }
 

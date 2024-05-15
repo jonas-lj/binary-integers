@@ -23,7 +23,11 @@ pub trait IntegerTraits:
     fn trailing_zeros(&self) -> TwosType;
 
     /// Divides by 2 until the number is odd and returns the number of divisions.
-    fn oddify(&mut self) -> TwosType;
+    fn oddify(&mut self) -> TwosType {
+        let zeros = self.trailing_zeros();
+        self.shr_assign(zeros);
+        zeros
+    }
 
     fn is_negative(&self) -> bool;
 

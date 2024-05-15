@@ -1,5 +1,5 @@
 use std::cmp::{min, Ordering};
-use std::ops::{Shl, ShrAssign};
+use std::ops::Shl;
 
 use num_bigint::BigInt;
 
@@ -101,12 +101,6 @@ impl IntegerTraits for BigInt {
         BigInt::trailing_zeros(self).unwrap() as TwosType
     }
 
-    fn oddify(&mut self) -> TwosType {
-        let zeros = BigInt::trailing_zeros(self).unwrap();
-        self.shr_assign(zeros);
-        zeros as TwosType
-    }
-
     fn is_negative(&self) -> bool {
         num_traits::Signed::is_negative(self)
     }
@@ -125,8 +119,6 @@ mod tests {
     use num_bigint::BigInt;
     use num_integer::Integer as OtherInteger;
     use rand::{thread_rng, RngCore};
-    use std::io;
-    use std::io::Write;
 
     use crate::binary_gcd::extended_euclidean_algorithm;
     use crate::integers::Integer;
