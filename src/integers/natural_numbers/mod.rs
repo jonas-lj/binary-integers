@@ -19,18 +19,21 @@ pub struct NaturalNumber {
 }
 
 impl NaturalNumber {
+    #[inline]
     pub(super) fn into_reduced(mut self) -> Self {
         self.reduce();
         self
     }
 
     /// Ensures that the odd part is odd and adjust the `twos` parameter.
+    #[inline]
     pub(super) fn reduce(&mut self) {
         let zeros = self.odd_part.trailing_zeros().unwrap();
         self.odd_part >>= zeros;
         self.twos += zeros as TwosType;
     }
 
+    #[inline]
     pub(super) fn one() -> Self {
         NaturalNumber {
             twos: 0,
@@ -38,10 +41,12 @@ impl NaturalNumber {
         }
     }
 
+    #[inline]
     pub(crate) fn is_odd(&self) -> bool {
         self.twos == 0
     }
 
+    #[inline]
     pub(super) fn bits(&self) -> u64 {
         self.twos as u64 + self.odd_part.bits()
     }
@@ -62,12 +67,14 @@ impl NaturalNumber {
         }
     }
 
-    pub(crate) fn trailing_zeros(&self) -> u16 {
+    #[inline]
+    pub(crate) fn trailing_zeros(&self) -> TwosType {
         self.twos
     }
 
     /// Divide this number with the largest power of 2 that divides it and return the exponent 2.
-    pub(crate) fn oddify(&mut self) -> u16 {
+    #[inline]
+    pub(crate) fn oddify(&mut self) -> TwosType {
         mem::replace(&mut self.twos, 0)
     }
 }

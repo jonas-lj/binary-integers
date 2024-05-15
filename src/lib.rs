@@ -38,7 +38,7 @@ pub trait IntegerTraits:
     }
 
     /// Compare self * 2^exp with other.
-    fn cmp_shifted(&self, exp: u16, other: &Self) -> Ordering;
+    fn cmp_shifted(&self, exp: TwosType, other: &Self) -> Ordering;
 }
 
 type TwosType = u16;

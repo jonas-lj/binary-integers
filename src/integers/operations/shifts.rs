@@ -3,7 +3,7 @@ use crate::integers::Integer::{NonZero, Zero};
 use crate::TwosType;
 use std::ops::{ShlAssign, ShrAssign};
 
-impl ShrAssign<u16> for Integer {
+impl ShrAssign<TwosType> for Integer {
     fn shr_assign(&mut self, rhs: TwosType) {
         match self {
             Zero => {}
@@ -12,8 +12,8 @@ impl ShrAssign<u16> for Integer {
     }
 }
 
-impl ShlAssign<u16> for Integer {
-    fn shl_assign(&mut self, rhs: u16) {
+impl ShlAssign<TwosType> for Integer {
+    fn shl_assign(&mut self, rhs: TwosType) {
         match self {
             Zero => {}
             NonZero(x, _) => x.shl_assign(rhs),

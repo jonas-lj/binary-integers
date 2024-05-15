@@ -97,19 +97,23 @@ pub fn extended_euclidean_algorithm<N: IntegerTraits>(a: &N, b: &N) -> Euclidean
 }
 
 impl IntegerTraits for BigInt {
+    #[inline]
     fn trailing_zeros(&self) -> TwosType {
         BigInt::trailing_zeros(self).unwrap() as TwosType
     }
 
+    #[inline]
     fn is_negative(&self) -> bool {
         num_traits::Signed::is_negative(self)
     }
 
+    #[inline]
     fn is_odd(&self) -> bool {
         num_integer::Integer::is_odd(self)
     }
 
-    fn cmp_shifted(&self, exp: u16, other: &Self) -> Ordering {
+    #[inline]
+    fn cmp_shifted(&self, exp: TwosType, other: &Self) -> Ordering {
         self.shl(exp).cmp(other)
     }
 }

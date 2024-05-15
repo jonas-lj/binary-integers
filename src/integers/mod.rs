@@ -6,7 +6,7 @@ use num_bigint::{BigInt, BigUint, Sign, ToBigInt};
 use num_traits::Zero;
 
 use crate::integers::Integer::*;
-use crate::IntegerTraits;
+use crate::{IntegerTraits, TwosType};
 
 pub mod natural_numbers;
 mod operations;
@@ -41,7 +41,7 @@ impl Integer {
 impl IntegerTraits for Integer {
     /// Return the number of trailing zeros in the binary representation of this number.
     #[inline]
-    fn trailing_zeros(&self) -> u16 {
+    fn trailing_zeros(&self) -> TwosType {
         match self {
             Zero => 0,
             NonZero(x, _) => x.trailing_zeros(),
@@ -50,7 +50,7 @@ impl IntegerTraits for Integer {
 
     /// Divide this number with the largest power of 2 that divides it and return the exponent 2.
     #[inline]
-    fn oddify(&mut self) -> u16 {
+    fn oddify(&mut self) -> TwosType {
         match self {
             Zero => 0,
             NonZero(ref mut x, _) => x.oddify(),
@@ -70,7 +70,7 @@ impl IntegerTraits for Integer {
         }
     }
 
-    fn cmp_shifted(&self, exp: u16, other: &Self) -> Ordering {
+    fn cmp_shifted(&self, exp: TwosType, other: &Self) -> Ordering {
         match (self.bits() + exp as u64).cmp(&other.bits()) {
             Ordering::Less => Ordering::Less,
             Ordering::Greater => Ordering::Greater,

@@ -21,8 +21,8 @@ impl ShrAssign<TwosType> for NaturalNumber {
 }
 
 #[allow(clippy::suspicious_op_assign_impl)]
-impl ShlAssign<u16> for NaturalNumber {
-    fn shl_assign(&mut self, rhs: u16) {
+impl ShlAssign<TwosType> for NaturalNumber {
+    fn shl_assign(&mut self, rhs: TwosType) {
         self.twos += rhs;
     }
 }
