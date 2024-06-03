@@ -16,13 +16,9 @@ impl Ord for NaturalNumber {
             Less => Less,
             Greater => Greater,
             Equal => match self.twos.cmp(&other.twos) {
-                Less => self
-                    .odd_part
-                    .cmp(&(&other.odd_part).shl(other.twos - self.twos)),
-                Equal => self.odd_part.cmp(&other.odd_part),
-                Greater => (&self.odd_part)
-                    .shl(self.twos - other.twos)
-                    .cmp(&other.odd_part),
+                Less => self.value.cmp(&(&other.value).shl(other.twos - self.twos)),
+                Equal => self.value.cmp(&other.value),
+                Greater => (&self.value).shl(self.twos - other.twos).cmp(&other.value),
             },
         }
     }

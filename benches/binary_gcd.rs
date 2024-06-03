@@ -14,8 +14,8 @@ fn binary_gcd(c: &mut Criterion) {
     rnd.fill_bytes(&mut b_bytes);
     let b = BigInt::from_bytes_be(num_bigint::Sign::Plus, &b_bytes);
 
-    let a_prime = binary_gcd::integers::Integer::from(&a);
-    let b_prime = binary_gcd::integers::Integer::from(&b);
+    let a_prime = binary_gcd::integers::Integer::from(a.clone());
+    let b_prime = binary_gcd::integers::Integer::from(b.clone());
 
     c.bench_function("binary integers", |b| {
         b.iter(|| extended_euclidean_algorithm::<binary_gcd::integers::Integer>(&a_prime, &b_prime))
