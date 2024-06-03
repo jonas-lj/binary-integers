@@ -7,7 +7,17 @@ impl ShrAssign<TwosType> for Integer {
     fn shr_assign(&mut self, rhs: TwosType) {
         match self {
             Zero => {}
-            NonZero(ref mut x, _) => x.shr_assign(rhs),
+            NonZero(ref mut x, sign) => {
+                // Round down if the number is negative and the right shift would round up.
+                let round_down = *sign && rhs > x.trailing_zeros();
+
+                x.shr_assign(rhs);
+                if round_down {
+                    x.increment();
+                }
+
+                self.reduce();
+            }
         }
     }
 }

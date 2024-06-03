@@ -141,8 +141,8 @@ mod tests {
             rnd.fill_bytes(&mut b_bytes);
             let b = BigInt::from_bytes_be(num_bigint::Sign::Plus, &b_bytes);
 
-            let a_prime = Integer::from(&a);
-            let b_prime = Integer::from(&b);
+            let a_prime = Integer::from(a.clone());
+            let b_prime = Integer::from(b.clone());
 
             let result = extended_euclidean_algorithm::<Integer>(&a_prime, &b_prime);
 

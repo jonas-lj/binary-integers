@@ -12,23 +12,18 @@ impl AddAssign<&Integer> for Integer {
             }
             (_, Zero) => {}
             (&mut NonZero(ref mut x, false), NonZero(y, false))
-            | (&mut NonZero(ref mut x, true), NonZero(y, true)) => {
-                x.add_assign(y);
-                self.reduce();
-            }
+            | (&mut NonZero(ref mut x, true), NonZero(y, true)) => x.add_assign(y),
             (&mut NonZero(ref mut x, ref mut sign), NonZero(y, true))
             | (&mut NonZero(ref mut x, ref mut sign), NonZero(y, false)) => match (*x).cmp(y) {
                 Less => {
                     let _ = mem::replace(x, y.clone() - x);
                     let _ = mem::replace(sign, !*sign);
-                    self.reduce();
                 }
                 Equal => {
-                    let _ = mem::replace(self, Zero);
+                    let _ = mem::take(self);
                 }
                 Greater => {
                     x.sub_assign(y);
-                    self.reduce();
                 }
             },
         }

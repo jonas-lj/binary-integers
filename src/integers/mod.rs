@@ -13,27 +13,31 @@ mod operations;
 #[cfg(test)]
 mod tests;
 
-#[derive(Clone, PartialEq, Eq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug, Default)]
 pub enum Integer {
+    #[default]
     Zero,
     NonZero(NaturalNumber, bool),
 }
 
 impl Integer {
-    /// Ensure that the odd part is odd and adjust the `twos` parameter accordingly.
-    #[inline]
-    fn reduce(&mut self) {
-        match self {
-            Zero => {}
-            NonZero(x, _) => x.reduce(),
-        }
-    }
-
     #[inline]
     pub fn bits(&self) -> u64 {
         match self {
             Zero => 0,
             NonZero(x, _) => x.bits(),
+        }
+    }
+
+    fn reduce(&mut self) {
+        match self {
+            Zero => {}
+            NonZero(x, _) => {
+                x.reduce();
+                if x.is_zero() {
+                    *self = Zero;
+                }
+            }
         }
     }
 }
@@ -89,18 +93,13 @@ impl IntegerTraits for Integer {
     }
 }
 
-impl From<&BigInt> for Integer {
-    fn from(value: &BigInt) -> Self {
+impl<T: Into<BigInt>> From<T> for Integer {
+    fn from(value: T) -> Self {
+        let value = value.into();
         match value.sign() {
-            Sign::Minus => NonZero(
-                NaturalNumber::try_from(value.magnitude().clone()).unwrap(),
-                true,
-            ),
+            Sign::Minus => NonZero(NaturalNumber::from(value.magnitude().clone()), true),
             Sign::NoSign => Zero,
-            Sign::Plus => NonZero(
-                NaturalNumber::try_from(value.magnitude().clone()).unwrap(),
-                false,
-            ),
+            Sign::Plus => NonZero(NaturalNumber::from(value.magnitude().clone()), false),
         }
     }
 }

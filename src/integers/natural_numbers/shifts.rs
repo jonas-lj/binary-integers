@@ -1,7 +1,8 @@
-use crate::integers::natural_numbers::NaturalNumber;
-use crate::TwosType;
 use std::cmp::Ordering::{Equal, Greater, Less};
 use std::ops::{ShlAssign, ShrAssign};
+
+use crate::integers::natural_numbers::NaturalNumber;
+use crate::TwosType;
 
 impl ShrAssign<TwosType> for NaturalNumber {
     fn shr_assign(&mut self, rhs: TwosType) {
@@ -15,6 +16,7 @@ impl ShrAssign<TwosType> for NaturalNumber {
             Less => {
                 self.odd_part.shr_assign(rhs - self.twos);
                 self.twos = 0;
+                self.reduce();
             }
         }
     }
