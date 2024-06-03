@@ -10,17 +10,33 @@ use crate::{IntegerTraits, TwosType};
 
 pub mod natural_numbers;
 mod operations;
+
 #[cfg(test)]
 mod tests;
 
-#[derive(Clone, PartialEq, Eq, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 pub enum Integer {
     #[default]
     Zero,
     NonZero(NaturalNumber, bool),
 }
 
+impl PartialEq for Integer {
+    fn eq(&self, other: &Self) -> bool {
+        BigInt::from(self) == BigInt::from(other)
+    }
+}
+
+impl Eq for Integer {}
+
 impl Integer {
+    pub fn test_bit(&self, index: TwosType) -> bool {
+        match self {
+            Zero => false,
+            NonZero(x, _) => x.test_bit(index),
+        }
+    }
+
     #[inline]
     pub fn bits(&self) -> u64 {
         match self {

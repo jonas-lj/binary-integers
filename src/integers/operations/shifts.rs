@@ -15,8 +15,6 @@ impl ShrAssign<TwosType> for Integer {
                 if round_down {
                     x.increment();
                 }
-
-                self.reduce();
             }
         }
     }

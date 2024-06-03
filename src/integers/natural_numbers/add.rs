@@ -6,15 +6,15 @@ impl AddAssign<&NaturalNumber> for NaturalNumber {
     fn add_assign(&mut self, rhs: &NaturalNumber) {
         match self.twos.cmp(&rhs.twos) {
             Less => {
-                self.odd_part += (&rhs.odd_part).shl(rhs.twos - self.twos);
+                self.value += (&rhs.value).shl(rhs.twos - self.twos);
             }
             Equal => {
-                self.odd_part += &rhs.odd_part;
+                self.value += &rhs.value;
                 self.reduce();
             }
             Greater => {
-                self.odd_part.shl_assign(self.twos - rhs.twos);
-                self.odd_part += &rhs.odd_part;
+                self.value.shl_assign(self.twos - rhs.twos);
+                self.value += &rhs.value;
                 self.twos = rhs.twos;
             }
         }

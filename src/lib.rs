@@ -42,3 +42,5 @@ pub trait IntegerTraits:
 }
 
 type TwosType = u16;
+
+type TwosTypeSigned = i16;
