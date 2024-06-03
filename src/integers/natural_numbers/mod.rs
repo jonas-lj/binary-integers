@@ -30,7 +30,7 @@ impl NaturalNumber {
         self
     }
 
-    /// Ensures that the odd part is odd and adjust the `twos` parameter.
+    /// Ensures that the odd part is odd (if the value is non-zero) and adjust the `twos` parameter.
     #[inline]
     pub(super) fn reduce(&mut self) {
         if self.odd_part.is_zero() {
